@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
 
-const GRID_SIZE = 10;
+const GRID_SIZE = 15;
 const CELL_SIZE = 32;
 
 // Cell types
@@ -22,16 +22,20 @@ const DIRS = [
 
 // Simple static maze layout
 const MAZE_LAYOUT: number[][] = [
-  [1,1,1,1,1,1,1,1,1,1],
-  [1,0,0,0,1,0,0,0,0,1],
-  [1,0,1,0,1,0,1,1,0,1],
-  [1,0,1,0,0,0,0,1,0,1],
-  [1,0,1,1,1,1,0,1,0,1],
-  [1,0,0,0,0,1,0,0,0,1],
-  [1,0,1,1,0,1,1,1,0,1],
-  [1,0,0,1,0,0,0,0,0,1],
-  [1,0,0,0,0,1,0,0,0,1],
-  [1,1,1,1,1,1,1,1,1,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+  [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 ];
 
 function cloneLayout(layout: number[][]) {
@@ -41,7 +45,7 @@ function cloneLayout(layout: number[][]) {
 export default function Game() {
   const [layout, setLayout] = useState<number[][]>(cloneLayout(MAZE_LAYOUT));
   const [playerPos, setPlayerPos] = useState({ x: 1, y: 1 });
-  const [enemies, setEnemies] = useState([{ x: 8, y: 1 }]);
+  const [enemies, setEnemies] = useState([{ x: 13, y: 1 }, { x: 1, y: 13 }]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [powerActive, setPowerActive] = useState(false);
@@ -121,9 +125,19 @@ export default function Game() {
     const interval = setInterval(() => {
       setEnemies(prev =>
         prev.map(enemy => {
-          const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
-          const nx = enemy.x + dir.dx;
-          const ny = enemy.y + dir.dy;
+          const dx = playerPos.x - enemy.x;
+          const dy = playerPos.y - enemy.y;
+          const absDx = Math.abs(dx);
+          const absDy = Math.abs(dy);
+          let moveX = 0;
+          let moveY = 0;
+          if (absDx > absDy) {
+            moveX = dx > 0 ? 1 : -1;
+          } else {
+            moveY = dy > 0 ? 1 : -1;
+          }
+          const nx = enemy.x + moveX;
+          const ny = enemy.y + moveY;
           if (
             nx < 0 ||
             nx >= GRID_SIZE ||
@@ -131,14 +145,29 @@ export default function Game() {
             ny >= GRID_SIZE ||
             layout[ny][nx] === WALL
           ) {
-            return enemy; // stay in place
+            const dirs = DIRS.filter(d => {
+              const tx = enemy.x + d.dx;
+              const ty = enemy.y + d.dy;
+              return (
+                tx >= 0 &&
+                tx < GRID_SIZE &&
+                ty >= 0 &&
+                ty < GRID_SIZE &&
+                layout[ty][tx] !== WALL
+              );
+            });
+            if (dirs.length > 0) {
+              const d = dirs[Math.floor(Math.random() * dirs.length)];
+              return { x: enemy.x + d.dx, y: enemy.y + d.dy };
+            }
+            return enemy;
           }
           return { x: nx, y: ny };
         })
       );
     }, 500);
     return () => clearInterval(interval);
-  }, [layout, gameOver]);
+  }, [layout, gameOver, playerPos]);
 
   // Collision detection
   useEffect(() => {
@@ -193,7 +222,7 @@ export default function Game() {
     <div className="flex flex-col items-center gap-4">
       <h1 className="text-2xl font-bold">Maze Chase</h1>
       <div
-        className="grid grid-cols-10 gap-0"
+        className="grid grid-cols-15 gap-0"
         style={{ width: `${GRID_SIZE * CELL_SIZE}px` }}
       >
         {Array.from({ length: GRID_SIZE }).flatMap((_, y) =>
