@@ -1,0 +1,48 @@
+
+# 2025-11-29 09:57:25.626498
++Code the following app
++```
++create a simple, playable mini-game inspired by classic maze-chase arcade games.
++The game should include the following essential elements:
++A player-controlled character that moves through a maze. The character should have a circular shape and  a open mouth while moving.
++
++Multiple collectible items scattered around the maze (for example: worms, pellets, or energy points). When the player touches these items, they disappear and increase the score.
++
++Several enemy characters that move autonomously through the maze. They should chase or obstruct the player. If an enemy touches the player, the player loses a life or the game ends.
++
++A maze layout with walls, corridors, and paths the player must navigate.
++
++Smooth movement controls (arrow keys, swipe, or tap controls, depending on the device).
++
++A score system that increases when collectibles are eaten.
++
++Optional: temporary power-up items that allow the player to become stronger or move faster for a short period.
++
++A minimal, clean graphical style suitable for mobile and web mini apps.
++```
++
++Generate an app logo and update the app metadata title and description.
+
+# 2025-11-29 09:57:25.627022
++Code the following app
++```
++create a simple, playable mini-game inspired by classic maze-chase arcade games.
++The game should include the following essential elements:
++A player-controlled character that moves through a maze. The character should have a circular shape and  a open mouth while moving.
++
++Multiple collectible items scattered around the maze (for example: worms, pellets, or energy points). When the player touches these items, they disappear and increase the score.
++
++Several enemy characters that move autonomously through the maze. They should chase or obstruct the player. If an enemy touches the player, the player loses a life or the game ends.
++
++A maze layout with walls, corridors, and paths the player must navigate.
++
++Smooth movement controls (arrow keys, swipe, or tap controls, depending on the device).
++
++A score system that increases when collectibles are eaten.
++
++Optional: temporary power-up items that allow the player to become stronger or move faster for a short period.
++
++A minimal, clean graphical style suitable for mobile and web mini apps.
++```
++
++Generate an app logo and update the app metadata title and description.
